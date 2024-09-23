@@ -1,0 +1,5 @@
+cache
+env
+keywords*.txt
+*.json
+config.ini
