@@ -2,7 +2,7 @@
 
 This tool allows you to search CIDRs based on some keywords. The tool is based on free access RIR (Regional Internet Registry) databases. 
 
-# Prerequisites
+## Prerequisites
 
 Make sure you have [ripgrep](https://github.com/BurntSushi/ripgrep) installed on you machine. In a future version, this tool will use [ripgrepy](https://pypi.org/project/ripgrepy/), but it's not the case for now.
 
