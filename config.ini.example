@@ -1,0 +1,19 @@
+[afrinic]
+name = afrinic
+url = http://ftp.afrinic.net/dbase/afrinic.db.gz
+db_file = afrinic.db.gz
+
+[apnic]
+name = apnic
+url = http://ftp.apnic.net/pub/apnic/whois/apnic.db.inetnum.gz
+db_file = apnic.db.inetnum.gz
+
+[lacnic]
+name = lacnic
+url = https://raw.githubusercontent.com/trustedsec/hardcidr/master/lacnicdb.txt
+db_file = lacnic.db.txt
+
+[ripe]
+name = ripe
+url = http://ftp.ripe.net/ripe/dbase/ripe.db.gz
+db_file = ripe.gz
