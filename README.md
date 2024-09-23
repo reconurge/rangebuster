@@ -13,7 +13,7 @@ Copy config file:
 ```bash
 cp config.ini.example config.ini
 ```
-Then create a virtual environment and installing packages: 
+Then create a virtual environment and install packages: 
 
 ```bash
 virtualenv env && source env/bin/activate
