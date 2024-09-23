@@ -27,11 +27,10 @@ python3 main.py -h
 
 usage: cidr_recon [-h] [-s] [-nc] [-o OUTPUT] keywords
 
-Search RR/RIR database for a keyword.
+Search RR/RIR database for keywords.
 
 positional arguments:
-  keywords              Keywords to search for. Separate multiple keywords with commas or provide a path to a text file
-                        containing keywords.
+  keywords              Keywords to search for. Separate multiple keywords with commas.
 
 options:
   -h, --help            show this help message and exit

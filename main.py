@@ -19,10 +19,10 @@ def main():
 
     parser = argparse.ArgumentParser(
         prog="cidr_recon",
-        description="Search RR/RIR database for a keyword."
+        description="Search RR/RIR database for keywords."
     )
     parser.add_argument(
-        "keywords", help="Keywords to search for. Separate multiple keywords with commas or provide a path to a text file containing keywords."
+        "keywords", help="Keywords to search for. Separate multiple keywords with commas."
     )
     parser.add_argument("-s", "--strict", action="store_true", help="Perform strict keyword matching.")
     parser.add_argument("-nc", "--no_cache", action="store_true", help="Clear the cache folder (where databases are stored).")
