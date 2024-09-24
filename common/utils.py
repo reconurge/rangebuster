@@ -5,13 +5,6 @@ from loguru import logger
 logger.remove()
 logger.add(lambda msg: print(msg, end=''), colorize=True, format="<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}</level> | <level>{message}</level>", level="INFO", diagnose=False)
 
-
-def use_config():
-    config = ConfigParser()
-    config_path = "config.ini"
-    config.read(config_path)
-    return config
-
 def get_duration(start, end):
     duration_seconds = end - start
     duration_minutes = int(duration_seconds // 60)
