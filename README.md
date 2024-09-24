@@ -8,7 +8,7 @@ Make sure you have [ripgrep](https://github.com/BurntSushi/ripgrep) installed on
 
 ## Quick run
 
-A script `run.sh` is provided to run this tool as simple as possible. Simply: 
+A script `run.sh` is provided to run this tool as simply as possible. Simply: 
 
 ```bash
 chmod +x run.sh
