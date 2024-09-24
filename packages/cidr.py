@@ -1,9 +1,7 @@
 from datetime import datetime
 import json
 from colorama import init, Fore # type: ignore
-from common.config import RESET, BOLD
-
-init(autoreset=True)
+from loguru import logger
 
 class CIDRInfo:
     def __init__(self, result, first_ip, last_ip, cidr, keyword="None", matches=[], source="None"):
@@ -41,9 +39,9 @@ class CIDRInfo:
         return json.dumps(self.to_dict(), indent=4)
 
     def log(self):
-         print(f"{BOLD}{Fore.GREEN}" + f"{BOLD}{Fore.YELLOW}[{self.source.upper()}] " + f"{BOLD}{Fore.YELLOW}{', '.join(self.cidr)} - " + f"{RESET}{Fore.LIGHTYELLOW_EX}{self.netname}")
+         logger.success(f"[{self.source.upper()}] {', '.join(self.cidr)} - {self.netname}")
          
     def to_string(self):
-        print(f"{BOLD}{Fore.GREEN}" + "CIDR Information:")
+        logger.info("CIDR Information:")
         for key, value in self.to_dict().items():
-            print(Fore.LIGHTBLACK_EX + f"{key}:" + f"{Fore.GREEN} {value}")
+            logger.info(f"{key}:" + f"{Fore.GREEN} {value}")

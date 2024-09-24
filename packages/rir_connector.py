@@ -97,7 +97,7 @@ class RiRConnector(Connector):
                         in_entry = True
                         entry.append(line)
 
-                logger.success(f"Found {len(results)} matches for [{self.source}].")
+                logger.info(f"Found {len(results)} matches for [{self.source}].")
 
                 self.save()
         except OSError:

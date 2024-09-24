@@ -10,7 +10,7 @@ from packages.arin_connector import ArinConnector
 
 # Logger setup
 logger.remove()  # Remove the default configuration (file handler)
-logger.add(lambda msg: print(msg, end=''), colorize=True, format="<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}</level> | <level>{message}</level>", level="INFO", diagnose=False)
+logger.add(lambda msg: print(msg, end=''), colorize=True, format="<level>[{level: <8}]</level> | <level>{message}</level>", level="INFO", diagnose=False)
 
 def main():
     processes = []
@@ -33,8 +33,9 @@ def main():
         try:
             os.remove(CACHE_PATH)
         except PermissionError:
-            logger.warning(f"Permission denied: Unable to remove {CACHE_PATH}.")
+            logger.warning(f"Permission denied: Unable to remove '{CACHE_PATH}'.")
             logger.warning("If you want to clear the cache, please run the script with elevated permissions (e.g., using 'sudo').")
+            logger.warning(f"If this doesn't solve the issue, try deleting '{CACHE_PATH}' manually.")
         except IsADirectoryError:
             logger.warning(f"{CACHE_PATH} is a directory. Use 'shutil.rmtree()' to remove directories.")
         except FileNotFoundError:
@@ -78,4 +79,4 @@ if __name__ == "__main__":
     main()
     end_time = time.time()
     finished = get_duration(start_time, end_time)
-    logger.success(f"Finished in {finished}")
+    logger.info(f"Finished in {finished}")
