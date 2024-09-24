@@ -6,7 +6,43 @@ This tool allows you to search CIDRs based on some keywords. The tool is based o
 
 Make sure you have [ripgrep](https://github.com/BurntSushi/ripgrep) installed on you machine. In a future version, this tool will use [ripgrepy](https://pypi.org/project/ripgrepy/), but it's not the case for now.
 
-## Install
+## Quick run
+
+A script `run.sh` is provided to run this tool as simple as possible. Simply: 
+
+```bash
+chmod +x run.sh
+```
+And :
+
+```bash
+./run.sh -h
+```
+
+#### Example
+
+```bash
+./run.sh canik -s
+
+Activating the virtual environment...
+Running main.py with arguments: canik -s
+2024-09-24 23:05:46.663 | INFO     | Using strict mode.
+2024-09-24 23:05:46.913 | INFO     | Using cached /var/tmp/rir/afrinic.db.gz.
+2024-09-24 23:05:46.923 | INFO     | Using cached /var/tmp/rir/apnic.db.inetnum.gz.
+2024-09-24 23:05:46.925 | INFO     | Using cached /var/tmp/rir/lacnic.db.txt.
+2024-09-24 23:05:46.933 | INFO     | Using cached /var/tmp/rir/ripe.gz.
+2024-09-24 23:05:47.406 | INFO     | No record found for afrinic.
+2024-09-24 23:05:47.633 | INFO     | No record found for lacnic.
+2024-09-24 23:05:47.751 | INFO     | No record found for apnic.
+[RIPE] 95.0.89.224/29 - Medicana_Samsun_Ozel_Saglik_Hizmetleri_AS
+[RIPE] 95.0.135.96/27 - metro_ethernet_alsat_coklu_IP
+[RIPE] 185.19.203.0/24 - TR-CANIK-20220629
+[RIPE] 88.255.105.72/29 - metro_ethernet_alsat_coklu_IP
+2024-09-24 23:05:50.710 | SUCCESS  | Found 4 matches for [ripe].
+2024-09-24 23:05:50.739 | SUCCESS  | Finished in 0min 4.08s
+```
+
+## Basic install
 
 Copy config file:
 

@@ -2,7 +2,7 @@ import json
 from multiprocessing import Lock
 import re
 from packages.cidr import CIDRInfo
-from utils import parse_inetnum
+from common.utils import parse_inetnum
 
 class CIDRParser:
     def __init__(self, entry, keyword, output_file, source='No source'):

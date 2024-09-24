@@ -3,7 +3,7 @@ import json
 import subprocess
 import re
 from datetime import datetime
-from utils import parse_inetnum
+from common.utils import parse_inetnum
 from packages.connector import Connector
 import xml.etree.ElementTree as ET  
 

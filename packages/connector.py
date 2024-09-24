@@ -1,6 +1,5 @@
 import json
 
-
 class Connector:
     def __init__(self, keywords, strict, source, output_file):
         self.keywords = keywords

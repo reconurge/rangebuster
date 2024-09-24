@@ -1,11 +1,9 @@
 from datetime import datetime
 import json
 from colorama import init, Fore # type: ignore
-init(autoreset=True)
+from common.config import RESET, BOLD
 
-BOLD = '\033[1m'
-RESET = '\033[0m'
-ITALIC = '\033[3m'
+init(autoreset=True)
 
 class CIDRInfo:
     def __init__(self, result, first_ip, last_ip, cidr, keyword="None", matches=[], source="None"):
