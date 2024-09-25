@@ -20,6 +20,7 @@ check_ripgrep
 if [ ! -d "env" ]; then
     echo -e "${BLUE}No virtual environment found. Creating one...${NC}"
     virtualenv env
+    source env/bin/activate
     echo -e "${BLUE}Installing requirements.txt...${NC}"
     pip3 install -r requirements.txt
 fi
