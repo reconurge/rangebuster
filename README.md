@@ -1,4 +1,4 @@
-# CIDR recon
+# Rangebuster
 
 This tool allows you to search CIDRs based on some keywords. The tool is based on free access RIR (Regional Internet Registry) databases. 
 
