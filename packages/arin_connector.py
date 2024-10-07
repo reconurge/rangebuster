@@ -4,9 +4,10 @@ import subprocess
 import re
 from datetime import datetime
 from common.utils import parse_inetnum
+from packages.cidr import CIDRInfo
 from packages.connector import Connector
 import xml.etree.ElementTree as ET  
-
+from common.utils import logger
 
 class ArinConnector(Connector):
     def __init__(self, keywords, strict, output_file):
@@ -31,25 +32,26 @@ class ArinConnector(Connector):
             json_data = json.dumps(data, indent=4, default=str)
             return json_data
         except requests.exceptions.HTTPError as errh:
-            print("HTTP Error:", errh)
+            logger.error("HTTP Error:", errh)
             return ""
         except requests.exceptions.ConnectionError as errc:
-            print("Error Connecting:", errc)
+            logger.error("Error Connecting:", errc)
             return ""
         except requests.exceptions.Timeout as errt:
-            print("Timeout Error:", errt)
+            logger.error("Timeout Error:", errt)
             return ""
         except requests.exceptions.RequestException as err:
-            print("Something went wrong:", err)
+            logger.error("Something went wrong:", err)
             return ""
 
     def search_database(self, output_file):
         record_types = ['e']  # Record types for ARIN searches
-        try:
-            with open(output_file, 'r') as json_file:
-                self.results = json.load(json_file)
-        except FileNotFoundError:
-            self.results = []
+        if output_file:
+            try:
+                with open(output_file, 'r') as json_file:
+                    self.results = json.load(json_file)
+            except FileNotFoundError:
+                self.results = []
 
         for record_type in record_types:
             for keyword in self.keywords:
@@ -60,26 +62,18 @@ class ArinConnector(Connector):
                 for result in parsed_results:
                     if result['inetnum'] not in self.seen_inetnums:
                         first_ip, last_ip, cidr = parse_inetnum(result['inetnum'])
-                        discovered_at = str(datetime.now())
                         whois = json.loads(self.get_whois_arin(result["description"]))
-
-                        entry = {
-                            "object_type": "cidr",
-                            'source': self.source,
-                            "netname": whois["name"],
-                            "first_ip": first_ip,
-                            "last_ip": last_ip,
-                            "cidr": cidr,
-                            "inetnum": result['inetnum'],
-                            "keyword": keyword,
-                            "description": result["description"],
-                            "discovered_at": [discovered_at],
-                            "status": 'To verify',
-                            "country": "",  # Country info may not be available in ARIN
-                            "whois": whois
-                        }
-                        self.results.append(entry)
-                        self.seen_inetnums.add(result['inetnum'])
+                        cidr = CIDRInfo(
+                            result=whois,
+                            first_ip=first_ip,
+                            last_ip=last_ip,
+                            cidr=cidr, 
+                            keyword=keyword, 
+                            source=self.source
+                        )
+                        cidr.log()
+                        self.results.append(cidr.to_dict())
+                        self.seen_inetnums.add(cidr.to_dict()['inetnum'])
 
         self.save()
 

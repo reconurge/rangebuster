@@ -1,13 +1,13 @@
 from datetime import datetime
 import json
-from colorama import init, Fore # type: ignore
+from colorama import Fore # type: ignore
 from loguru import logger
-
+from common.config import RESET, ITALIC
 class CIDRInfo:
     def __init__(self, result, first_ip, last_ip, cidr, keyword="None", matches=[], source="None"):
         self.object_type = "cidr"
         self.source = source or (result["source"].lower() if "source" in result else None)
-        self.netname = result["netname"] if "netname" in result else "No netname"
+        self.netname = result["netname"] if "netname" in result else result["name"] if "name" in result else "No netname"
         self.first_ip = first_ip
         self.last_ip = last_ip
         self.cidr = cidr
@@ -39,7 +39,11 @@ class CIDRInfo:
         return json.dumps(self.to_dict(), indent=4)
 
     def log(self):
-         logger.success(f"[{self.source.upper()}] {', '.join(self.cidr)} - {self.netname}")
+        whois_data = self.to_dict().get('whois', {})
+        ref = whois_data.get('ref', "")
+        ref_string = f"{RESET}{ITALIC}{Fore.YELLOW}({ref})" if ref else ""
+        logger.success(f"[{self.source.upper()}] {', '.join(self.cidr)} - {self.netname} {ref_string}")
+
          
     def to_string(self):
         logger.info("CIDR Information:")
