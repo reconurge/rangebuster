@@ -120,5 +120,76 @@ python3 main.py tesla,solarcity
 Saving to output file:
 
 ```bash
-python3 main.py tesla,solarcity -o output.json
+python3 main.py ubuntu -o output.json
 ```
+This is the kind of output you can expect:
+
+```js
+[
+    {
+        "object_type": "cidr",
+        "source": "ripe",
+        "netname": "ubuntu",
+        "first_ip": "87.79.26.32",
+        "last_ip": "87.79.26.47",
+        "cidr": [
+            "87.79.26.32/28"
+        ],
+        "inetnum": "87.79.26.32 - 87.79.26.47",
+        "keyword": "ubuntu",
+        "description": "ubuntu Deutschland e. V., Geibelstr.45, 30173 Hannover",
+        "discovered_at": [
+            "2025-01-08 16:10:26.765346"
+        ],
+        "country": "DE",
+        "whois": {
+            "inetnum": "87.79.26.32 - 87.79.26.47",
+            "netname": "ubuntu",
+            "descr": "ubuntu Deutschland e. V., Geibelstr.45, 30173 Hannover",
+            "country": "DE",
+            "admin-c": "DUMY-RIPE",
+            "tech-c": "DUMY-RIPE",
+            "status": "ASSIGNED PA",
+            "mnt-by": "NETCOLOGNE-MNT",
+            "mnt-lower": "NETCOLOGNE-MNT",
+            "created": "2010-08-05T15:10:46Z",
+            "last-modified": "2010-08-05T15:10:46Z",
+            "source": "RIPE",
+            "remarks": "****************************, * THIS OBJECT IS MODIFIED, * Please note that all data that is generally regarded as personal, * data has been removed from this object., * To view the original object, please query the RIPE Database at:, * http://www.ripe.net/whois, ****************************"
+        }
+    },
+    {
+        "object_type": "cidr",
+        "source": "ripe",
+        "netname": "SNI682387166_000275",
+        "first_ip": "77.61.100.144",
+        "last_ip": "77.61.100.147",
+        "cidr": [
+            "77.61.100.144/30"
+        ],
+        "inetnum": "77.61.100.144 - 77.61.100.147",
+        "keyword": "ubuntu",
+        "description": "Ubuntu Beach CV, NOORDWIJK ZH",
+        "discovered_at": [
+            "2025-01-08 16:10:26.766486"
+        ],
+        "country": "NL",
+        "whois": {
+            "inetnum": "77.61.100.144 - 77.61.100.147",
+            "netname": "SNI682387166_000275",
+            "descr": "Ubuntu Beach CV, NOORDWIJK ZH",
+            "country": "NL",
+            "admin-c": "DUMY-RIPE",
+            "tech-c": "DUMY-RIPE",
+            "status": "ASSIGNED PA",
+            "notify": "kpn-ip-office@kpn.com",
+            "mnt-by": "AS286-MNT",
+            "created": "2013-02-12T07:54:37Z",
+            "last-modified": "2013-02-12T07:54:37Z",
+            "source": "RIPE",
+            "remarks": "****************************, * THIS OBJECT IS MODIFIED, * Please note that all data that is generally regarded as personal, * data has been removed from this object., * To view the original object, please query the RIPE Database at:, * http://www.ripe.net/whois, ****************************"
+        }
+    }
+...
+]
+``` 
