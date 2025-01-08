@@ -4,7 +4,19 @@ This tool allows you to search CIDRs based on some keywords. The tool is based o
 
 ## Prerequisites
 
-Make sure you have [ripgrep](https://github.com/BurntSushi/ripgrep) installed on you machine.
+Make sure you have the following installed on you machine:
+- [ripgrep](https://github.com/BurntSushi/ripgrep)
+- [virtualenv](https://virtualenv.pypa.io/en/latest)
+- [whois](https://who.is)
+
+You can install them very easily with your package manager:
+
+```bash
+# Ubuntu/Debian
+sudo apt install ripgrep virtualenv whois
+# MacOS with brew
+brew install ripgrep virtualenv whois
+```
 
 ## Quick run
 
