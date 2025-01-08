@@ -14,8 +14,17 @@ check_ripgrep() {
         exit 1
     fi
 }
+check_virtualenv() {
+    if ! command -v virtualenv &> /dev/null; then
+        echo -e "${RED}virtualenv is not installed. Please install it using your package manager.${NC}"
+        echo -e "${YELLOW}For example, on Ubuntu/Debian you can run: sudo apt install virtualenv${NC}"
+        echo -e "${YELLOW}On macOS, you can run: brew install virtualenv${NC}"
+        exit 1
+    fi
+}
 
 check_ripgrep
+check_virtualenv
 
 if [ ! -d "env" ]; then
     echo -e "${BLUE}No virtual environment found. Creating one...${NC}"
