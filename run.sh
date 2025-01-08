@@ -22,6 +22,14 @@ check_virtualenv() {
         exit 1
     fi
 }
+check_whois() {
+    if ! command -v whois &> /dev/null; then
+        echo -e "${RED}whois is not installed. Please install it using your package manager.${NC}"
+        echo -e "${YELLOW}For example, on Ubuntu/Debian you can run: sudo apt install whois${NC}"
+        echo -e "${YELLOW}On macOS, you can run: brew install whois${NC}"
+        exit 1
+    fi
+}
 
 check_ripgrep
 check_virtualenv
