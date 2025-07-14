@@ -16,7 +16,7 @@ A powerful tool to search CIDRs based on keywords using Regional Internet Regist
 
 ## Prerequisites
 
-### System Dependencies
+### System dependencies
 
 Make sure you have the following installed on your machine:
 
@@ -39,7 +39,7 @@ choco install ripgrep
 
 ## Installation
 
-### Option 1: Install as a Python Package (Recommended)
+### Option 1: Install as a python package (recommended)
 
 ```bash
 # Install from PyPI (when available)
@@ -51,7 +51,7 @@ cd rangebuster
 pip install -e .
 ```
 
-### Option 2: Manual Installation
+### Option 2: manual installation
 
 ```bash
 # Clone the repository
@@ -68,7 +68,7 @@ pip install -r requirements.txt
 
 ## Usage
 
-### As a Python Package (CLI)
+### As a python package (CLI)
 
 ```bash
 # Basic usage
@@ -94,7 +94,7 @@ rangebuster tesla -v
 rangebuster tesla -s -v -o results.json
 ```
 
-### As a Python Module
+### As a python module
 
 ```bash
 # add to requirements.txt
@@ -134,7 +134,7 @@ rb = RangeBuster(
 results = rb.search()
 ```
 
-### As a Script
+### As a script
 
 ```bash
 # Basic usage
@@ -153,7 +153,7 @@ python cli.py tesla -nc -o results.json
 python cli.py tesla -v
 ```
 
-## Command Line Options
+## Command line options
 
 ```
 usage: rangebuster [-h] [-s] [-nc] [-o OUTPUT] [-v] [--version] keywords
@@ -175,7 +175,7 @@ options:
 
 ## Examples
 
-### Basic Search
+### Basic search
 
 ```bash
 rangebuster tesla
@@ -191,7 +191,7 @@ rangebuster tesla
 # [INFO] Finished in 0min 4.08s
 ```
 
-### Strict Matching
+### Strict matching
 
 ```bash
 rangebuster tesla -s
@@ -205,13 +205,13 @@ rangebuster tesla -s
 rangebuster tesla -o tesla_results.json
 ```
 
-### Multiple Keywords
+### Multiple keywords
 
 ```bash
 rangebuster tesla,solarcity,spacex -o results.json
 ```
 
-### Using Keyword File
+### Using keyword file
 
 ```bash
 # Create keywords file
@@ -221,7 +221,7 @@ echo -e "tesla\nsolarcity\nspacex" > keywords.txt
 rangebuster keywords.txt -s -o results.json
 ```
 
-### Verbose Logging
+### Verbose logging
 
 ```bash
 # Enable verbose logging for debugging
@@ -234,7 +234,7 @@ rangebuster tesla -v
 # - Timing information
 ```
 
-### Python Module Usage
+### Python module usage
 
 ```python
 from rangebuster import search_cidrs
@@ -262,7 +262,7 @@ for result in results:
     print("---")
 ```
 
-## Output Format
+## Output format
 
 The tool outputs results in JSON format with the following structure:
 
@@ -292,7 +292,7 @@ The tool outputs results in JSON format with the following structure:
 ]
 ```
 
-## Supported RIR Databases
+## Supported RIR databases
 
 - **AFRINIC** - African Network Information Centre
 - **APNIC** - Asia Pacific Network Information Centre  
@@ -300,7 +300,7 @@ The tool outputs results in JSON format with the following structure:
 - **RIPE** - Réseaux IP Européens Network Coordination Centre
 - **ARIN** - American Registry for Internet Numbers
 
-## Cache Management
+## Cache management
 
 The tool caches downloaded RIR databases in `/var/tmp/rir/` by default. You can:
 
@@ -321,7 +321,7 @@ The tool supports two logging modes:
 
 ## Troubleshooting
 
-### Missing ripgrep
+### Missing `ripgrep`
 
 If you get an error about ripgrep not being found:
 
@@ -336,7 +336,7 @@ brew install ripgrep
 choco install ripgrep
 ```
 
-### Permission Issues
+### Permission issues
 
 If you encounter permission issues with cache:
 
@@ -349,7 +349,7 @@ export RIR_OUTPUT_PATH=/tmp/rangebuster_cache
 rangebuster <keyword>
 ```
 
-### Debugging Issues
+### Debugging issues
 
 If you need to debug issues:
 
@@ -362,7 +362,7 @@ rangebuster keyword -v
 
 ## Development
 
-### Setup Development Environment
+### Setup development environment
 
 ```bash
 git clone https://github.com/reconurge/rangebuster.git
@@ -373,7 +373,7 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-### Package Structure
+### Package structure
 
 ```
 rangebuster/
