@@ -43,7 +43,7 @@ choco install ripgrep
 
 ```bash
 # Install from PyPI (when available)
-pip install rangebuster
+pip install git+https://github.com/reconurge/rangebuster
 
 # Or install from source
 git clone https://github.com/reconurge/rangebuster.git
@@ -95,6 +95,15 @@ rangebuster tesla -s -v -o results.json
 ```
 
 ### As a Python Module
+
+```bash
+# add to requirements.txt
+https://github.com/reconurge/rangebuster
+# or install in your venv
+pip install https://github.com/reconurge/rangebuster
+````
+
+Then you can use it as a module.
 
 ```python
 from rangebuster import search_cidrs
