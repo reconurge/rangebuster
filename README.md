@@ -1,130 +1,263 @@
 # Rangebuster
 
-This tool allows you to search CIDRs based on some keywords. The tool is based on free access RIR (Regional Internet Registry) databases. 
+A powerful tool to search CIDRs based on keywords using Regional Internet Registry (RIR) databases. This tool allows you to discover IP ranges associated with specific keywords across multiple RIR databases.
+
+## Features
+
+- Search across multiple RIR databases (AFRINIC, APNIC, LACNIC, RIPE, ARIN)
+- Support for multiple keywords and keyword files
+- Strict and fuzzy keyword matching modes
+- JSON output with detailed results
+- Fast search using ripgrep
+- Pure Python implementation with CLI interface
+- Installable as a Python package
+- Usable as a Python module
+- Verbose logging option for debugging
 
 ## Prerequisites
 
-Make sure you have the following installed on you machine:
-- [ripgrep](https://github.com/BurntSushi/ripgrep)
-- [virtualenv](https://virtualenv.pypa.io/en/latest)
-- [whois](https://who.is)
+### System Dependencies
 
-You can install them very easily with your package manager:
+Make sure you have the following installed on your machine:
+
+- [ripgrep](https://github.com/BurntSushi/ripgrep) - Fast text search tool
+
+You can install ripgrep with your package manager:
 
 ```bash
 # Ubuntu/Debian
-sudo apt install ripgrep virtualenv whois
-# MacOS with brew
-brew install ripgrep virtualenv whois
+sudo apt install ripgrep
+
+# macOS with Homebrew
+brew install ripgrep
+
+# Windows with Chocolatey
+choco install ripgrep
+
+# Or download from: https://github.com/BurntSushi/ripgrep/releases
 ```
 
-## Quick run
+## Installation
 
-A script `run.sh` is provided to run this tool as simply as possible. Simply: 
-
-```bash
-chmod +x run.sh
-```
-And :
+### Option 1: Install as a Python Package (Recommended)
 
 ```bash
-./run.sh -h
-```
+# Install from PyPI (when available)
+pip install rangebuster
 
-#### Example
-
-```bash
-./run.sh canik -s
-
-Activating the virtual environment...
-Running main.py with arguments: canik -s
-2024-09-24 23:05:46.663 | INFO     | Using strict mode.
-2024-09-24 23:05:46.913 | INFO     | Using cached /var/tmp/rir/afrinic.db.gz.
-2024-09-24 23:05:46.923 | INFO     | Using cached /var/tmp/rir/apnic.db.inetnum.gz.
-2024-09-24 23:05:46.925 | INFO     | Using cached /var/tmp/rir/lacnic.db.txt.
-2024-09-24 23:05:46.933 | INFO     | Using cached /var/tmp/rir/ripe.gz.
-2024-09-24 23:05:47.406 | INFO     | No record found for afrinic.
-2024-09-24 23:05:47.633 | INFO     | No record found for lacnic.
-2024-09-24 23:05:47.751 | INFO     | No record found for apnic.
-[RIPE] 95.0.89.224/29 - Medicana_Samsun_Ozel_Saglik_Hizmetleri_AS
-[RIPE] 95.0.135.96/27 - metro_ethernet_alsat_coklu_IP
-[RIPE] 185.19.203.0/24 - TR-CANIK-20220629
-[RIPE] 88.255.105.72/29 - metro_ethernet_alsat_coklu_IP
-2024-09-24 23:05:50.710 | SUCCESS  | Found 4 matches for [ripe].
-2024-09-24 23:05:50.739 | SUCCESS  | Finished in 0min 4.08s
+# Or install from source
+git clone https://github.com/reconurge/rangebuster.git
+cd rangebuster
+pip install -e .
 ```
 
-## Basic install
-
-Create a virtual environment and install packages: 
+### Option 2: Manual Installation
 
 ```bash
-virtualenv env && source env/bin/activate
-pip3 install -r requirements.txt
-```
+# Clone the repository
+git clone https://github.com/reconurge/rangebuster.git
+cd rangebuster
 
-Then make sure the tool works fine:
+# Create virtual environment
+python -m venv env
+source env/bin/activate  # On Windows: env\Scripts\activate
 
-```bash
-python3 main.py -h
-
-usage: cidr_recon [-h] [-s] [-nc] [-o OUTPUT] keywords
-
-Search RR/RIR database for keywords.
-
-positional arguments:
-  keywords              Keywords to search for. Separate multiple keywords with commas.
-
-options:
-  -h, --help            show this help message and exit
-  -s, --strict          Perform strict keyword matching.
-  -nc, --no_cache       Clear the cache folder (where databases are stored).
-  -o OUTPUT, --output OUTPUT
-                        Output filename (should end with .json)
+# Install dependencies
+pip install -r requirements.txt
 ```
 
 ## Usage
 
-Without saving to json file, simply printing the inetnums:
+### As a Python Package (CLI)
 
 ```bash
-python3 main.py tesla,solarcity
+# Basic usage
+rangebuster tesla,solarcity
 
-2024-09-23 15:19:28.552 | INFO     | Using cached cache/afrinic.db.gz.
-2024-09-23 15:19:28.552 | INFO     | Using cached cache/lacnic.db.txt.
-2024-09-23 15:19:28.554 | INFO     | Using cached cache/apnic.db.inetnum.gz.
-2024-09-23 15:19:28.564 | INFO     | Using cached cache/ripe.gz.
-[AFRINIC] 41.218.104.148/30 - ITG
-[AFRINIC] 41.218.104.156/30 - ITG
-[AFRINIC] 41.78.100.144/29 - Michelin_Tyres
-[AFRINIC] 102.244.192.40/30 - Michelin_Douala
-[AFRINIC] 102.177.113.250/31 - CMC-CERBA-LANCET-RWANDA
-[AFRINIC] 102.177.113.252/31 - CMC-CERBA-LANCET-Kenya
-2024-09-23 15:19:29.028 | SUCCESS  | Found 6 matches for [afrinic].
-[APNIC] 203.125.189.64/26 - MICHELIN-SG
-[APNIC] 202.95.76.128/27 - MICHELIN-SG
-[APNIC] 202.95.77.184/29 - MICHELIN-SG
-[APNIC] 202.95.93.96/27 - MICHELIN-SG
-[APNIC] 58.246.87.172/30 - Michelin
-[APNIC] 124.83.35.155/32 - BIZONEZERO
-...
-[RIPE] 87.241.50.152/29 - NET-IT-Tesla-Italy-Srl
-[RIPE] 217.111.255.184/29 - NET-BE-Tesla-Belgium
-[RIPE] 212.161.79.192/29 - NET-BE-Tesla-Belgium
-[RIPE] 213.215.131.112/29 - NET-IT-Tesla-Italy
-[RIPE] 78.143.2.248/29 - NET-PL-Tesla-Poland
-2024-09-23 15:25:35.804 | SUCCESS  | Found 693 matches for [ripe].
-2024-09-23 15:25:35.834 | SUCCESS  | Finished in 0min 4.76s
+# With strict matching
+rangebuster tesla -s
+
+# Save results to file
+rangebuster tesla -o results.json
+
+# Clear cache and search
+rangebuster tesla -nc -o results.json
+
+# Use keyword file
+echo "tesla\nsolarcity" > keywords.txt
+rangebuster keywords.txt -s -o results.json
+
+# Enable verbose logging
+rangebuster tesla -v
+
+# Combine options
+rangebuster tesla -s -v -o results.json
 ```
 
-Saving to output file:
+### As a Python Module
+
+```python
+from rangebuster import search_cidrs
+
+# Basic search
+results = search_cidrs("tesla,solarcity")
+for result in results:
+    print(f"{result['cidr']} - {result['netname']}")
+
+# With options
+results = search_cidrs(
+    keywords="tesla",
+    strict=True,
+    output_file="results.json",
+    clear_cache=False,
+    verbose=True
+)
+
+# Using the RangeBuster class
+from rangebuster import RangeBuster
+
+rb = RangeBuster(
+    keywords="tesla,solarcity",
+    strict=True,
+    output_file="results.json",
+    verbose=True
+)
+results = rb.search()
+```
+
+### As a Script
 
 ```bash
-python3 main.py ubuntu -o output.json
-```
-This is the kind of output you can expect:
+# Basic usage
+python cli.py tesla,solarcity
 
-```js
+# With strict matching
+python cli.py tesla -s
+
+# Save results to file
+python cli.py tesla -o results.json
+
+# Clear cache and search
+python cli.py tesla -nc -o results.json
+
+# Enable verbose logging
+python cli.py tesla -v
+```
+
+## Command Line Options
+
+```
+usage: rangebuster [-h] [-s] [-nc] [-o OUTPUT] [-v] [--version] keywords
+
+Search RIR and ARIN databases for keywords to find CIDR ranges.
+
+positional arguments:
+  keywords              Keywords to search for. Separate multiple keywords with commas or provide a file path ending with .txt
+
+options:
+  -h, --help            show this help message and exit
+  -s, --strict          Perform strict keyword matching (exact word boundaries)
+  -nc, --no_cache       Clear the cache folder (where databases are stored)
+  -o OUTPUT, --output OUTPUT
+                        Output filename (should end with .json)
+  -v, --verbose         Enable verbose logging (DEBUG level)
+  --version             show program's version number and exit
+```
+
+## Examples
+
+### Basic Search
+
+```bash
+rangebuster tesla
+
+# Output (with verbose mode):
+# [INFO] All dependencies are available
+# [INFO] Downloading RIR databases...
+# [INFO] Searching RIR databases...
+# [INFO] Searching ARIN database...
+# [RIPE] 87.79.26.32/28 - ubuntu
+# [RIPE] 77.61.100.144/30 - SNI682387166_000275
+# [INFO] Search completed!
+# [INFO] Finished in 0min 4.08s
+```
+
+### Strict Matching
+
+```bash
+rangebuster tesla -s
+
+# This will only match exact word boundaries, not partial matches
+```
+
+### Save Results to JSON
+
+```bash
+rangebuster tesla -o tesla_results.json
+```
+
+### Multiple Keywords
+
+```bash
+rangebuster tesla,solarcity,spacex -o results.json
+```
+
+### Using Keyword File
+
+```bash
+# Create keywords file
+echo -e "tesla\nsolarcity\nspacex" > keywords.txt
+
+# Search with file
+rangebuster keywords.txt -s -o results.json
+```
+
+### Verbose Logging
+
+```bash
+# Enable verbose logging for debugging
+rangebuster tesla -v
+
+# This will show detailed DEBUG level logs including:
+# - Database download progress
+# - Search operations
+# - File operations
+# - Timing information
+```
+
+### Python Module Usage
+
+```python
+from rangebuster import search_cidrs
+
+# Simple search
+results = search_cidrs("tesla")
+for result in results:
+    print(f"{result['cidr']} - {result['netname']}")
+
+# Advanced usage
+results = search_cidrs(
+    keywords="tesla,solarcity",
+    strict=True,
+    output_file="results.json",
+    clear_cache=True,
+    verbose=True
+)
+
+# Process results
+for result in results:
+    print(f"Source: {result['source']}")
+    print(f"CIDR: {result['cidr']}")
+    print(f"Netname: {result['netname']}")
+    print(f"Description: {result['description']}")
+    print("---")
+```
+
+## Output Format
+
+The tool outputs results in JSON format with the following structure:
+
+```json
 [
     {
         "object_type": "cidr",
@@ -132,64 +265,141 @@ This is the kind of output you can expect:
         "netname": "ubuntu",
         "first_ip": "87.79.26.32",
         "last_ip": "87.79.26.47",
-        "cidr": [
-            "87.79.26.32/28"
-        ],
+        "cidr": ["87.79.26.32/28"],
         "inetnum": "87.79.26.32 - 87.79.26.47",
-        "keyword": "ubuntu",
-        "description": "ubuntu Deutschland e. V., Geibelstr.45, 30173 Hannover",
-        "discovered_at": [
-            "2025-01-08 16:10:26.765346"
-        ],
-        "country": "DE",
+        "keyword": "tesla",
+        "description": "Tesla Motors, Inc.",
+        "discovered_at": ["2025-01-08 16:10:26.765346"],
+        "country": "US",
         "whois": {
             "inetnum": "87.79.26.32 - 87.79.26.47",
             "netname": "ubuntu",
-            "descr": "ubuntu Deutschland e. V., Geibelstr.45, 30173 Hannover",
-            "country": "DE",
-            "admin-c": "DUMY-RIPE",
-            "tech-c": "DUMY-RIPE",
+            "descr": "Tesla Motors, Inc.",
+            "country": "US",
             "status": "ASSIGNED PA",
-            "mnt-by": "NETCOLOGNE-MNT",
-            "mnt-lower": "NETCOLOGNE-MNT",
-            "created": "2010-08-05T15:10:46Z",
-            "last-modified": "2010-08-05T15:10:46Z",
-            "source": "RIPE",
-            "remarks": "****************************, * THIS OBJECT IS MODIFIED, * Please note that all data that is generally regarded as personal, * data has been removed from this object., * To view the original object, please query the RIPE Database at:, * http://www.ripe.net/whois, ****************************"
-        }
-    },
-    {
-        "object_type": "cidr",
-        "source": "ripe",
-        "netname": "SNI682387166_000275",
-        "first_ip": "77.61.100.144",
-        "last_ip": "77.61.100.147",
-        "cidr": [
-            "77.61.100.144/30"
-        ],
-        "inetnum": "77.61.100.144 - 77.61.100.147",
-        "keyword": "ubuntu",
-        "description": "Ubuntu Beach CV, NOORDWIJK ZH",
-        "discovered_at": [
-            "2025-01-08 16:10:26.766486"
-        ],
-        "country": "NL",
-        "whois": {
-            "inetnum": "77.61.100.144 - 77.61.100.147",
-            "netname": "SNI682387166_000275",
-            "descr": "Ubuntu Beach CV, NOORDWIJK ZH",
-            "country": "NL",
-            "admin-c": "DUMY-RIPE",
-            "tech-c": "DUMY-RIPE",
-            "status": "ASSIGNED PA",
-            "notify": "kpn-ip-office@kpn.com",
-            "mnt-by": "AS286-MNT",
-            "created": "2013-02-12T07:54:37Z",
-            "last-modified": "2013-02-12T07:54:37Z",
-            "source": "RIPE",
-            "remarks": "****************************, * THIS OBJECT IS MODIFIED, * Please note that all data that is generally regarded as personal, * data has been removed from this object., * To view the original object, please query the RIPE Database at:, * http://www.ripe.net/whois, ****************************"
+            "source": "RIPE"
         }
     }
-...
 ]
-``` 
+```
+
+## Supported RIR Databases
+
+- **AFRINIC** - African Network Information Centre
+- **APNIC** - Asia Pacific Network Information Centre  
+- **LACNIC** - Latin America and Caribbean Network Information Centre
+- **RIPE** - Réseaux IP Européens Network Coordination Centre
+- **ARIN** - American Registry for Internet Numbers
+
+## Cache Management
+
+The tool caches downloaded RIR databases in `/var/tmp/rir/` by default. You can:
+
+- Clear cache: `rangebuster keyword -nc`
+- Change cache location: Set `RIR_OUTPUT_PATH` environment variable
+
+## Logging
+
+The tool supports two logging modes:
+
+- **Silent mode** (default): No output unless errors occur
+- **Verbose mode** (`-v` or `--verbose`): Shows detailed DEBUG level logs including:
+  - Database download progress
+  - Search operations
+  - File operations
+  - Timing information
+  - Function calls and line numbers
+
+## Troubleshooting
+
+### Missing ripgrep
+
+If you get an error about ripgrep not being found:
+
+```bash
+# Ubuntu/Debian
+sudo apt install ripgrep
+
+# macOS
+brew install ripgrep
+
+# Windows
+choco install ripgrep
+```
+
+### Permission Issues
+
+If you encounter permission issues with cache:
+
+```bash
+# Run with sudo (Linux/macOS)
+sudo rangebuster <keyword>
+
+# Or change cache location
+export RIR_OUTPUT_PATH=/tmp/rangebuster_cache
+rangebuster <keyword>
+```
+
+### Debugging Issues
+
+If you need to debug issues:
+
+```bash
+# Enable verbose logging
+rangebuster keyword -v
+
+# This will show detailed logs to help identify problems
+```
+
+## Development
+
+### Setup Development Environment
+
+```bash
+git clone https://github.com/reconurge/rangebuster.git
+cd rangebuster
+python -m venv env
+source env/bin/activate
+pip install -r requirements.txt
+pip install -e .
+```
+
+### Package Structure
+
+```
+rangebuster/
+├── rangebuster/          # Main package
+│   ├── __init__.py      # Package initialization
+│   ├── rangebuster.py   # Core API functionality
+│   ├── common/          # Common utilities
+│   │   ├── config.py
+│   │   ├── utils.py
+│   │   └── dependency_checker.py
+│   └── packages/        # RIR connectors
+│       ├── rir_connector.py
+│       ├── arin_connector.py
+│       ├── cidr.py
+│       └── cidr_parser.py
+├── cli.py               # Command line interface
+├── setup.py             # Package setup
+├── requirements.txt     # Dependencies
+└── README.md           # Documentation
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/reconurge/rangebuster/blob/main/LICENCE) file for details.
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## Acknowledgments
+
+- Built with [ripgrep](https://github.com/BurntSushi/ripgrep) for fast text search
+- Uses [python-whois](https://github.com/richardpenman/python-whois) for WHOIS lookups
+- Inspired by the need for efficient CIDR discovery in security research 

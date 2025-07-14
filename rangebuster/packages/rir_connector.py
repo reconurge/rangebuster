@@ -1,18 +1,17 @@
 from datetime import datetime
 import subprocess
-from packages.cidr_parser import CIDRParser
-from packages.connector import Connector
+from .cidr_parser import CIDRParser
+from .connector import Connector
 import os
 import requests
 import re
 from colorama import Fore
-from common.utils import get_keywords_from_string_or_file
-from common.config import CACHE_PATH, RESET, BOLD
+from ..common.utils import get_keywords_from_string_or_file
+from ..common.config import CACHE_PATH, RESET, BOLD
 
 from loguru import logger
 
-logger.remove()  # Remove the default configuration (file handler)
-logger.add(lambda msg: print(msg, end=''), colorize=True, format="<green>{HH:mm:ss.SSS}</green> | <level>{level: <8}</level> | <level>{message}</level>", level="INFO", diagnose=False)
+# Logging is now configured centrally; do not configure here.
 
 class RiRConnector(Connector):
     def __init__(self, output_file, keywords, strict, source, db_file):

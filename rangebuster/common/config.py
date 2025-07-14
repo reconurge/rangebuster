@@ -4,7 +4,7 @@ BOLD = '\033[1m'
 RESET = '\033[0m'
 ITALIC = '\033[3m'
 
-CACHE_PATH = os.getenv('OUTPUT_PATH', os.path.expanduser('/var/tmp/rir'))
+CACHE_PATH = os.getenv('RIR_OUTPUT_PATH', os.path.expanduser('/var/tmp/rir'))
 
 sources = [
     {

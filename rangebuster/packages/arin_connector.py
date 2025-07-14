@@ -3,11 +3,12 @@ import json
 import subprocess
 import re
 from datetime import datetime
-from common.utils import parse_inetnum
-from packages.cidr import CIDRInfo
-from packages.connector import Connector
+from ..common.utils import parse_inetnum
+from .cidr import CIDRInfo
+from .connector import Connector
 import xml.etree.ElementTree as ET  
-from common.utils import logger
+from ..common.utils import logger
+import whois
 
 class ArinConnector(Connector):
     def __init__(self, keywords, strict, output_file):
@@ -55,25 +56,32 @@ class ArinConnector(Connector):
 
         for record_type in record_types:
             for keyword in self.keywords:
-                cmd = f'whois -h whois.arin.net "{record_type} {keyword}"'
-                output = subprocess.check_output(cmd, shell=True, universal_newlines=True)
-                parsed_results = self._parse_arin_output(output)
+                try:
+                    # Use python-whois instead of subprocess
+                    w = whois.whois(f'whois.arin.net')
+                    # For ARIN, we still need to use the REST API approach
+                    # as python-whois doesn't support ARIN's specific format
+                    cmd = f'whois -h whois.arin.net "{record_type} {keyword}"'
+                    output = subprocess.check_output(cmd, shell=True, universal_newlines=True)
+                    parsed_results = self._parse_arin_output(output)
 
-                for result in parsed_results:
-                    if result['inetnum'] not in self.seen_inetnums:
-                        first_ip, last_ip, cidr = parse_inetnum(result['inetnum'])
-                        whois = json.loads(self.get_whois_arin(result["description"]))
-                        cidr = CIDRInfo(
-                            result=whois,
-                            first_ip=first_ip,
-                            last_ip=last_ip,
-                            cidr=cidr, 
-                            keyword=keyword, 
-                            source=self.source
-                        )
-                        cidr.log()
-                        self.results.append(cidr.to_dict())
-                        self.seen_inetnums.add(cidr.to_dict()['inetnum'])
+                    for result in parsed_results:
+                        if result['inetnum'] not in self.seen_inetnums:
+                            first_ip, last_ip, cidr = parse_inetnum(result['inetnum'])
+                            whois_data = json.loads(self.get_whois_arin(result["description"]))
+                            cidr = CIDRInfo(
+                                result=whois_data,
+                                first_ip=first_ip,
+                                last_ip=last_ip,
+                                cidr=cidr, 
+                                keyword=keyword, 
+                                source=self.source
+                            )
+                            cidr.log()
+                            self.results.append(cidr.to_dict())
+                            self.seen_inetnums.add(cidr.to_dict()['inetnum'])
+                except Exception as e:
+                    logger.error(f"Error searching ARIN for keyword '{keyword}': {e}")
 
         self.save()
 
