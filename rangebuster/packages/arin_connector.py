@@ -2,7 +2,6 @@ import requests
 import json
 import subprocess
 import re
-from datetime import datetime
 from ..common.utils import parse_inetnum
 from .cidr import CIDRInfo
 from .connector import Connector
