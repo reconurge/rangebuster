@@ -21,18 +21,20 @@ A powerful tool to search CIDRs based on keywords using Regional Internet Regist
 Make sure you have the following installed on your machine:
 
 - [ripgrep](https://github.com/BurntSushi/ripgrep) - Fast text search tool
+- [whois](https://github.com/BurntSushi/ripgrep) - Whois official tool
 
-You can install ripgrep with your package manager:
+
+You can install ripgrep and whois with your package manager:
 
 ```bash
 # Ubuntu/Debian
-sudo apt install ripgrep
+sudo apt install ripgrep whois
 
 # macOS with Homebrew
-brew install ripgrep
+brew install ripgrep whois
 
 # Windows with Chocolatey
-choco install ripgrep
+choco install ripgrep whois
 
 # Or download from: https://github.com/BurntSushi/ripgrep/releases
 ```
@@ -64,6 +66,12 @@ source env/bin/activate  # On Windows: env\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
+```
+
+Then check installation.
+
+```bash
+python3 cli.py -h
 ```
 
 ## Usage
