@@ -21,7 +21,7 @@ A powerful tool to search CIDRs based on keywords using Regional Internet Regist
 Make sure you have the following installed on your machine:
 
 - [ripgrep](https://github.com/BurntSushi/ripgrep) - Fast text search tool
-- [whois](https://github.com/BurntSushi/ripgrep) - Whois official tool
+- whois - Whois official tool
 
 
 You can install ripgrep and whois with your package manager:
