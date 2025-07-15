@@ -66,13 +66,13 @@ def main():
         
         end_time = time.time()
         finished = get_duration(start_time, end_time)
-        logger.info(f"⏱️  Finished in {finished}")
+        logger.warning(f"Finished in {finished}")
         
         # Print summary
         if results:
-            logger.success(f"Found {len(results)} CIDR ranges")
+            logger.warning(f"Found {len(results)} CIDR ranges")
         else:
-            logger.info("No CIDR ranges found")
+            logger.warning("No CIDR ranges found")
             
     except KeyboardInterrupt:
         logger.warning("Search interrupted by user")

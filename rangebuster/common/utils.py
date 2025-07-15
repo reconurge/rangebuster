@@ -4,7 +4,7 @@ import ipaddress
 from loguru import logger
 
 def configure_logging(verbose=False):
-    """Configure logging based on verbose mode. If not verbose, suppress all logging output."""
+    """Configure logging based on verbose mode. Always show ERROR and WARNING messages."""
     logger.remove()  # Remove existing handlers
     
     if verbose:
@@ -16,9 +16,17 @@ def configure_logging(verbose=False):
             level="DEBUG", 
             diagnose=False
         )
-    # else: do not add any handler, so no logs are shown
+    else:
+        # Normal mode: only show ERROR and WARNING messages
+        logger.add(
+            lambda msg: print(msg, end=''), 
+            colorize=True, 
+            format="<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}</level> | <level>{message}</level>", 
+            level="WARNING", 
+            diagnose=False
+        )
 
-# Initialize with default (non-verbose) logging (no output)
+# Initialize with default (non-verbose) logging (only errors and warnings)
 configure_logging(verbose=False)
 
 def get_duration(start, end):

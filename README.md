@@ -311,7 +311,7 @@ The tool caches downloaded RIR databases in `/var/tmp/rir/` by default. You can:
 
 The tool supports two logging modes:
 
-- **Silent mode** (default): No output unless errors occur
+- **Normal mode** (default): Shows only ERROR, WARNING messages and final results
 - **Verbose mode** (`-v` or `--verbose`): Shows detailed DEBUG level logs including:
   - Database download progress
   - Search operations
