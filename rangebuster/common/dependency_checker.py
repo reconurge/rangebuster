@@ -25,17 +25,26 @@ def check_ripgrep():
 def check_whois():
     """Check if whois is installed and available."""
     try:
-        import whois
-        return True
-    except ImportError:
-        logger.error("❌ python-whois is not installed")
-        logger.error("Please install it with: pip install python-whois")
-        return False
+        result = subprocess.run(['whois'], 
+                              capture_output=True, 
+                              text=True, 
+                              timeout=5)
+        if result.returncode == 0:
+            return True
+    except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
+        pass
+    
+    logger.error("❌ whois (whois) is not installed or not available in PATH")
+    logger.error("Please install whois using your package manager:")
+    logger.error("  Ubuntu/Debian: sudo apt install whois")
+    logger.error("  macOS: brew install whois")
+    logger.error("  Windows: choco install whois")
+    return False
 
 def check_dependencies():
     """Check all required dependencies."""
     ripgrep_ok = check_ripgrep()
-    whois_ok = check_python_whois()
+    whois_ok = check_whois()
     
     if not ripgrep_ok or not whois_ok:
         logger.error("❌ Missing required dependencies. Please install them and try again.")
