@@ -22,8 +22,8 @@ def check_ripgrep():
     logger.error("  Or download from: https://github.com/BurntSushi/ripgrep/releases")
     return False
 
-def check_python_whois():
-    """Check if python-whois is available."""
+def check_whois():
+    """Check if whois is installed and available."""
     try:
         import whois
         return True
