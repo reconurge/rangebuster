@@ -25,7 +25,6 @@ def check_ripgrep():
 def check_whois():
     """Check if whois is installed and available."""
     try:
-        print("Checking whois...")
         result = subprocess.run(['whois', 'help'], 
                               capture_output=True, 
                               text=True, 
