@@ -3,6 +3,8 @@ import json
 from colorama import Fore # type: ignore
 from loguru import logger
 from ..common.config import RESET, ITALIC
+
+
 class CIDRInfo:
     def __init__(self, result, first_ip, last_ip, cidr, keyword="None", matches=[], source="None"):
         self.object_type = "cidr"
